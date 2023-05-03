@@ -1,4 +1,4 @@
-package com.asi1.GameCard.model;
+package com.asi1.GameCard.cards.model;
 
 public class Card {
     private String name;

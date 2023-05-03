@@ -1,7 +1,5 @@
-package com.asi1.GameCard.rest;
+package com.asi1.GameCard.cards.controller;
 
-import com.asi1.GameCard.model.Card;
-import com.asi1.GameCard.model.CardFormDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +7,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.asi1.GameCard.cards.model.Card;
+import com.asi1.GameCard.cards.model.CardFormDTO;
 
 @Controller
 public class RequestCrt {
