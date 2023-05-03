@@ -1,5 +1,9 @@
 package com.asi1.GameCard.cards.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Card {
     private String name;
     private String description;
@@ -12,6 +16,8 @@ public class Card {
     private double defense;
     private double attack;
     private double price;
+    @Id
+    private Long id;
 
     // Getters and Setters
     public String getName() {
