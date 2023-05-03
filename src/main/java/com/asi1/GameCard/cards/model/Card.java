@@ -139,6 +139,17 @@ public class Card {
     // Constructors
 
     public Card() {
+        this.name = "";
+        this.description = "";
+        this.family = "";
+        this.affinity = "";
+        this.imgUrl = "https://via.placeholder.com/300x400?text=No+image+available";
+        this.smallImgUrl = "https://via.placeholder.com/100x150?text=No+image+available";
+        this.energy = 0;
+        this.hp = 0;
+        this.defense = 0;
+        this.attack = 0;
+        this.price = 0;
     }
 
     public Card(String name, String description, String family, String affinity, String imgUrl, String smallImgUrl,

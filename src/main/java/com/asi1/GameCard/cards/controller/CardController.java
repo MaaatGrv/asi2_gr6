@@ -1,7 +1,6 @@
 package com.asi1.GameCard.cards.controller;
 
 import com.asi1.GameCard.cards.model.Card;
-import com.asi1.GameCard.cards.model.CardFormDTO;
 import com.asi1.GameCard.cards.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class RequestCrt {
+public class CardController {
 
 	private static String messageLocal = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
 
 	private final CardService cardService;
 
 	@Autowired
-	public RequestCrt(CardService cardService) {
+	public CardController(CardService cardService) {
 		this.cardService = cardService;
 	}
 
@@ -32,26 +31,12 @@ public class RequestCrt {
 
 	@GetMapping("/create-card")
 	public String showCreateCardForm(Model model) {
-		model.addAttribute("cardForm", new CardFormDTO());
+		model.addAttribute("cardForm", new Card());
 		return "create-card";
 	}
 
 	@PostMapping("/create-card")
-	public String createCard(@ModelAttribute("cardForm") CardFormDTO cardForm, Model model) {
-		// Créez un nouvel objet Card à partir des données du DTO
-		Card card = new Card();
-		card.setName(cardForm.getName());
-		card.setDescription(cardForm.getDescription());
-		card.setFamily(cardForm.getFamily());
-		card.setAffinity(cardForm.getAffinity());
-		card.setImgUrl(cardForm.getImgUrl());
-		card.setSmallImgUrl(cardForm.getSmallImgUrl());
-		card.setEnergy(cardForm.getEnergy());
-		card.setHp(cardForm.getHp());
-		card.setDefense(cardForm.getDefense());
-		card.setAttack(cardForm.getAttack());
-		card.setPrice(cardForm.getPrice());
-
+	public String createCard(@ModelAttribute("cardForm") Card card, Model model) {
 		// Sauvegardez la carte en utilisant le service CardService
 		Card savedCard = cardService.createCard(card);
 
