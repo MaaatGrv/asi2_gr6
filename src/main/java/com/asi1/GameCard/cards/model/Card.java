@@ -1,159 +1,177 @@
+// Card.java
 package com.asi1.GameCard.cards.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table
 public class Card {
-    private String name;
-    private String description;
-    private String family;
-    private String affinity;
-    private String imgUrl = "https://via.placeholder.com/300x400?text=No+image+available";
-    private String smallImgUrl = "https://via.placeholder.com/100x150?text=No+image+available";
-    private double energy;
-    private double hp;
-    private double defense;
-    private double attack;
-    private double price;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private String family;
+
+    @Column(nullable = false)
+    private String affinity;
+
+    @Column(nullable = false)
+    private String imgUrl;
+
+    @Column(nullable = false)
+    private String smallImgUrl;
+
+    @Column(nullable = false)
+    private int energy;
+
+    @Column(nullable = false)
+    private int hp;
+
+    @Column(nullable = false)
+    private int defence;
+
+    @Column(nullable = false)
+    private int attack;
+
+    @Column(nullable = false)
+    private int price;
+
+    @Column(nullable = false)
+    private Long userId;
+
     // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public Card setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Card setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Card setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public String getFamily() {
         return family;
     }
 
-    public void setFamily(String family) {
+    public Card setFamily(String family) {
         this.family = family;
-    }
-
-    public void setAffinity(String affinity) {
-        this.affinity = affinity;
+        return this;
     }
 
     public String getAffinity() {
         return affinity;
     }
 
+    public Card setAffinity(String affinity) {
+        this.affinity = affinity;
+        return this;
+    }
+
     public String getImgUrl() {
         return imgUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
-        if (imgUrl == null || imgUrl.isEmpty()) {
-            this.imgUrl = "https://via.placeholder.com/300x400?text=No+image+available";
-        } else {
-            this.imgUrl = imgUrl;
-        }
+    public Card setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+        return this;
     }
 
     public String getSmallImgUrl() {
         return smallImgUrl;
     }
 
-    public void setSmallImgUrl(String smallImgUrl) {
-        if (smallImgUrl == null || smallImgUrl.isEmpty()) {
-            this.smallImgUrl = "https://via.placeholder.com/100x150?text=No+image+available";
-        } else {
-            this.smallImgUrl = smallImgUrl;
-        }
+    public Card setSmallImgUrl(String smallImgUrl) {
+        this.smallImgUrl = smallImgUrl;
+        return this;
     }
 
-    public double getEnergy() {
+    public int getEnergy() {
         return energy;
     }
 
-    public void setEnergy(double energy) {
-        if (energy < 0) {
-            this.energy = 0;
-        } else {
-            this.energy = energy;
-        }
+    public Card setEnergy(int energy) {
+        this.energy = energy;
+        return this;
     }
 
-    public double getHp() {
+    public int getHp() {
         return hp;
     }
 
-    public void setHp(double hp) {
-        if (hp < 0) {
-            this.hp = 0;
-        } else {
-            this.hp = hp;
-        }
+    public Card setHp(int hp) {
+        this.hp = hp;
+        return this;
     }
 
-    public void setDefense(double defense) {
-        if (defense < 0) {
-            this.defense = 0;
-        } else {
-            this.defense = defense;
-        }
+    public int getDefence() {
+        return defence;
     }
 
-    public double getDefense() {
-        return defense;
+    public Card setDefence(int defence) {
+        this.defence = defence;
+        return this;
     }
 
-    public double getAttack() {
+    public int getAttack() {
         return attack;
     }
 
-    public void setAttack(double attack) {
-        if (attack < 0) {
-            this.attack = 0;
-        } else {
-            this.attack = attack;
-        }
+    public Card setAttack(int attack) {
+        this.attack = attack;
+        return this;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        if (price < 0) {
-            this.price = 0;
-        } else {
-            this.price = price;
-        }
+    public Card setPrice(int price) {
+        this.price = price;
+        return this;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Card setUserId(Long userId) {
+        this.userId = userId;
+        return this;
     }
 
     // Constructors
 
     public Card() {
-        this.name = "";
-        this.description = "";
-        this.family = "";
-        this.affinity = "";
-        this.imgUrl = "https://via.placeholder.com/300x400?text=No+image+available";
-        this.smallImgUrl = "https://via.placeholder.com/100x150?text=No+image+available";
-        this.energy = 0;
-        this.hp = 0;
-        this.defense = 0;
-        this.attack = 0;
-        this.price = 0;
     }
 
     public Card(String name, String description, String family, String affinity, String imgUrl, String smallImgUrl,
-            double energy, double hp, double defense, double attack, double price) {
+            int energy, int hp, int defence, int attack, int price, Long userId) {
         this.name = name;
         this.description = description;
         this.family = family;
@@ -162,10 +180,9 @@ public class Card {
         this.smallImgUrl = smallImgUrl;
         this.energy = energy;
         this.hp = hp;
-        this.defense = defense;
+        this.defence = defence;
         this.attack = attack;
         this.price = price;
+        this.userId = userId;
     }
-
-    // Methods
 }

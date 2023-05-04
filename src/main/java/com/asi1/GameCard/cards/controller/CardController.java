@@ -3,15 +3,12 @@ package com.asi1.GameCard.cards.controller;
 import com.asi1.GameCard.cards.model.Card;
 import com.asi1.GameCard.cards.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class CardController {
 
 	private static String messageLocal = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
@@ -43,5 +40,42 @@ public class CardController {
 		// Affichez les données de la carte sauvegardée
 		model.addAttribute("card", savedCard);
 		return "display-card";
+	}
+
+	// Ajoutez les méthodes pour les autres opérations CRUD (Get, Update, Delete,
+	// etc.)
+
+	@GetMapping("/cards")
+	public String getAllCards(Model model) {
+		List<Card> cards = cardService.getAllCards();
+		model.addAttribute("cards", cards);
+		return "cards";
+	}
+
+	@GetMapping("/card/{id}")
+	public String getCard(@PathVariable Long id, Model model) {
+		Card card = cardService.getCard(id);
+		model.addAttribute("card", card);
+		return "display-card";
+	}
+
+	@GetMapping("/card/{id}/edit")
+	public String showUpdateCardForm(@PathVariable Long id, Model model) {
+		Card card = cardService.getCard(id);
+		model.addAttribute("cardForm", card);
+		return "update-card";
+	}
+
+	@PostMapping("/card/{id}/edit")
+	public String updateCard(@PathVariable Long id, @ModelAttribute("cardForm") Card card, Model model) {
+		Card updatedCard = cardService.updateCard(id, card);
+		model.addAttribute("card", updatedCard);
+		return "display-card";
+	}
+
+	@GetMapping("/card/{id}/delete")
+	public String deleteCard(@PathVariable Long id, Model model) {
+		cardService.deleteCard(id);
+		return "redirect:/cards";
 	}
 }

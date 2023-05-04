@@ -1,59 +1,53 @@
 package com.asi1.GameCard.cards.service;
 
 import com.asi1.GameCard.cards.model.Card;
+import com.asi1.GameCard.cards.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CardService {
-    private final String apiUrl = "http://vps.cpe-sn.fr:8083";
-    private final RestTemplate restTemplate;
+
+    private final CardRepository cardRepository;
 
     @Autowired
-    public CardService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public CardService(CardRepository cardRepository) {
+        this.cardRepository = cardRepository;
     }
 
     public Card getCard(Long id) {
-        String url = apiUrl + "/card/" + id;
-        ResponseEntity<Card> response = restTemplate.getForEntity(url, Card.class);
-        return response.getBody();
+        return cardRepository.findById(id).orElse(null);
     }
 
     public Card updateCard(Long id, Card updatedCard) {
-        String url = apiUrl + "/card/" + id;
-        HttpEntity<Card> request = new HttpEntity<>(updatedCard);
-        ResponseEntity<Card> response = restTemplate.exchange(url, HttpMethod.PUT, request, Card.class);
-        return response.getBody();
+        if (cardRepository.existsById(id)) {
+            updatedCard.setId(id);
+            return cardRepository.save(updatedCard);
+        }
+        return null;
     }
 
     public void deleteCard(Long id) {
-        String url = apiUrl + "/card/" + id;
-        restTemplate.delete(url);
+        cardRepository.deleteById(id);
     }
 
     public Card createCard(Card newCard) {
-        String url = apiUrl + "/card";
-        ResponseEntity<Card> response = restTemplate.postForEntity(url, newCard, Card.class);
-        return response.getBody();
+        return cardRepository.save(newCard);
     }
 
     public List<Card> getCardsToSell() {
-        String url = apiUrl + "/cards_to_sell";
-        ResponseEntity<Card[]> response = restTemplate.getForEntity(url, Card[].class);
-        return Arrays.asList(response.getBody());
+        // TODO: Implement this method
+        return null;
     }
 
     public List<Card> getAllCards() {
-        String url = apiUrl + "/cards";
-        ResponseEntity<Card[]> response = restTemplate.getForEntity(url, Card[].class);
-        return Arrays.asList(response.getBody());
+        return cardRepository.findAll();
+    }
+
+    public Optional<Card> findCardById(Long cardId) {
+        return cardRepository.findById(cardId);
     }
 }
