@@ -20,15 +20,18 @@
             <div class="item">
                 <div class="ui label">
                     Crédits restants
-                    <div class="detail"><span id="account"></span>$</div>
+                    <div class="detail"><span id="user-account"></span>$</div>
                 </div>
             </div>
             <div class="item">
                 <div class="ui label">
                     Utilisateur
-                    <div class="detail"><span id="login"></span></div>
+                    <div class="detail"><span id="user-login"></span></div>
                 </div>
             </div>
+            <div class="item">
+                <button class="ui button" id="logout-btn">Déconnexion</button>
+            </div>          
         </div>
     </div>
 
@@ -38,6 +41,8 @@
             <button class="ui button" onclick="window.location.href = '/sell.html'">Sell</button>
             <button class="ui button">Play</button>
         </div>
-    </div>    
+    </div>
+    
+    <script src="/js/home.js"></script>
 </body>
 </html>

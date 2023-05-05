@@ -45,7 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             console.log('Logged in:', data);
             alert('Logged in successfully!');
-            // Redirect to another page if needed
+            // Redirect to home.html
+            window.location.href = '/home.html';
+
+
         })
         .catch(error => {
             console.error('Error:', error);
@@ -89,7 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             console.log('User created:', data);
             alert('User created successfully!');
-            // Redirect to another page if needed
+            // Redirect to home.html
+            window.location.href = '/home.html';
         })
         .catch(error => {
             console.error('Error:', error);
