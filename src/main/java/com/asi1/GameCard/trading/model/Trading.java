@@ -1,7 +1,12 @@
 package com.asi1.GameCard.trading.model;
 
-public class Trading {
+import javax.persistence.*;
 
+@Entity
+public class Trading {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Long userId;
     private Long cardId;
     private String type;

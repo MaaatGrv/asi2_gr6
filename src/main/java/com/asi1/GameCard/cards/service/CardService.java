@@ -44,7 +44,7 @@ public class CardService {
     }
 
     public List<Card> getAllCards() {
-        return cardRepository.findAll();
+        return (List<Card>) cardRepository.findAll();
     }
 
     public Optional<Card> findCardById(Long cardId) {

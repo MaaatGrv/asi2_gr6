@@ -4,7 +4,6 @@ package com.asi1.GameCard.cards.model;
 import javax.persistence.*;
 
 @Entity
-@Table
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
