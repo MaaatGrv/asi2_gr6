@@ -3,15 +3,14 @@ package com.asi1.GameCard.cards.controller;
 import com.asi1.GameCard.cards.model.Card;
 import com.asi1.GameCard.cards.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/card-rest-controller")
 public class CardController {
-
-	private static String messageLocal = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
 
 	private final CardService cardService;
 
@@ -20,62 +19,36 @@ public class CardController {
 		this.cardService = cardService;
 	}
 
-	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
-	public String index(Model model) {
-		model.addAttribute("messageLocal", messageLocal);
-		return "index";
-	}
-
-	@GetMapping("/create-card")
-	public String showCreateCardForm(Model model) {
-		model.addAttribute("cardForm", new Card());
-		return "create-card";
-	}
-
-	@PostMapping("/create-card")
-	public String createCard(@ModelAttribute("cardForm") Card card, Model model) {
-		// Sauvegardez la carte en utilisant le service CardService
-		Card savedCard = cardService.createCard(card);
-
-		// Affichez les données de la carte sauvegardée
-		model.addAttribute("card", savedCard);
-		return "display-card";
-	}
-
-	// Ajoutez les méthodes pour les autres opérations CRUD (Get, Update, Delete,
-	// etc.)
-
 	@GetMapping("/cards")
-	public String getAllCards(Model model) {
+	public ResponseEntity<List<Card>> getAllCards() {
 		List<Card> cards = cardService.getAllCards();
-		model.addAttribute("cards", cards);
-		return "cards";
+		return ResponseEntity.ok(cards);
 	}
 
 	@GetMapping("/card/{id}")
-	public String getCard(@PathVariable Long id, Model model) {
+	public ResponseEntity<Card> getCard(@PathVariable Long id) {
 		Card card = cardService.getCard(id);
-		model.addAttribute("card", card);
-		return "display-card";
+		return ResponseEntity.ok(card);
 	}
 
-	@GetMapping("/card/{id}/edit")
-	public String showUpdateCardForm(@PathVariable Long id, Model model) {
-		Card card = cardService.getCard(id);
-		model.addAttribute("cardForm", card);
-		return "update-card";
+	@PostMapping("/card")
+	public ResponseEntity<Card> createCard(@RequestBody Card card) {
+		Card savedCard = cardService.createCard(card);
+		return ResponseEntity.ok(savedCard);
 	}
 
-	@PostMapping("/card/{id}/edit")
-	public String updateCard(@PathVariable Long id, @ModelAttribute("cardForm") Card card, Model model) {
+	@PutMapping("/card/{id}")
+	public ResponseEntity<Card> updateCard(@PathVariable Long id, @RequestBody Card card) {
 		Card updatedCard = cardService.updateCard(id, card);
-		model.addAttribute("card", updatedCard);
-		return "display-card";
+		return ResponseEntity.ok(updatedCard);
 	}
 
-	@GetMapping("/card/{id}/delete")
-	public String deleteCard(@PathVariable Long id, Model model) {
+	@DeleteMapping("/card/{id}")
+	public ResponseEntity<Void> deleteCard(@PathVariable Long id) {
 		cardService.deleteCard(id);
-		return "redirect:/cards";
+		return ResponseEntity.ok().build();
 	}
+
+	// Ajoutez les méthodes pour les autres opérations spécifiques (cards_to_sell,
+	// etc.)
 }
