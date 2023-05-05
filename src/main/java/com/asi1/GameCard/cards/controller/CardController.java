@@ -48,6 +48,12 @@ public class CardController {
 		return ResponseEntity.ok().build();
 	}
 
+	@GetMapping("/user/{userId}/cards")
+	public ResponseEntity<List<Card>> getCardsByUserId(@PathVariable Long userId) {
+		List<Card> cards = cardService.getCardsByUserId(userId);
+		return ResponseEntity.ok(cards);
+	}
+
 	// Ajoutez les méthodes pour les autres opérations spécifiques (cards_to_sell,
 	// etc.)
 }
