@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_URL = '/create-card';
+    const API_URL = '/card';
 
     const energyProgress = document.getElementById('energyProgress');
     const hpProgress = document.getElementById('hpProgress');

@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user-rest-controller")
 public class UserController {
 
     private final UserService userService;
@@ -22,9 +23,11 @@ public class UserController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<User> login(@RequestBody User loginUser) {
+    public ResponseEntity<User> login(@RequestBody User loginUser, HttpServletRequest request) {
         Optional<User> user = userService.findUserByLogin(loginUser.getLogin());
         if (user.isPresent() && user.get().getPwd().equals(loginUser.getPwd())) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user.get());
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -73,5 +76,26 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/auth/user")
+    public ResponseEntity<User> getLoggedInUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (user != null) {
+                return ResponseEntity.ok(user);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("/auth/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return ResponseEntity.ok().build();
     }
 }

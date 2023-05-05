@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Running card.js");
 
-    const apiUrl = 'http://vps.cpe-sn.fr:8083/cards';
+    const apiUrl = '/cards';
 
     function displayCards(cards) {
         let template = document.querySelector("#selectedCard");
