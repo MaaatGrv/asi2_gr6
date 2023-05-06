@@ -14,7 +14,7 @@ function getUserData() {
             }
         })
         .then(data => {
-            document.getElementById('user-account').textContent = data.account + '$';
+            document.getElementById('user-account').textContent = data.account;
             document.getElementById('user-login').textContent = data.login;
         })
         .catch(error => {

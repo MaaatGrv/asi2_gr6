@@ -54,6 +54,10 @@ public class CardController {
 		return ResponseEntity.ok(cards);
 	}
 
-	// Ajoutez les méthodes pour les autres opérations spécifiques (cards_to_sell,
-	// etc.)
+	@GetMapping("/cards_to_sell")
+	public ResponseEntity<List<Card>> getCardsForSale() {
+		List<Card> cards = cardService.getCardsForSale();
+		return ResponseEntity.ok(cards);
+	}
+
 }

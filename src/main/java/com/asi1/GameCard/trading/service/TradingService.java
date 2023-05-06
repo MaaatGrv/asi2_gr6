@@ -41,6 +41,10 @@ public class TradingService {
                 user.get().getCardList().add(card.get().getId());
                 userRepository.save(user.get());
 
+                // Mettez à jour le userId de la carte et enregistrez la carte
+                card.get().setUserId(userId);
+                cardRepository.save(card.get());
+
                 // Créez et retournez la transaction
                 Trading transaction = new Trading(userId, cardId, "buy");
                 tradingRepository.save(transaction); // Enregistrez la transaction
@@ -65,6 +69,10 @@ public class TradingService {
                 user.get().getCardList().remove(card.get().getId());
                 userRepository.save(user.get());
 
+                // Réinitialisez le userId de la carte et enregistrez la carte
+                card.get().setUserId(0L);
+                cardRepository.save(card.get());
+
                 // Créez et retournez la transaction
                 Trading transaction = new Trading(userId, cardId, "sell");
                 tradingRepository.save(transaction); // Enregistrez la transaction
@@ -73,4 +81,5 @@ public class TradingService {
         }
         return null;
     }
+
 }

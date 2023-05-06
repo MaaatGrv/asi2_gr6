@@ -98,4 +98,16 @@ public class UserController {
         }
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/user/{id}/addmoney")
+    public ResponseEntity<User> addMoney(@PathVariable Long id, @RequestBody Double amount) {
+        Optional<User> existingUser = userService.findUserById(id);
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
+            user.setAccount(user.getAccount() + amount);
+            User updatedUser = userService.updateUser(id, user);
+            return ResponseEntity.ok(updatedUser);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
