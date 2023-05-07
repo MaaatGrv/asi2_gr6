@@ -86,7 +86,13 @@ function sellCard(cardId) {
                                 price: ""
                             });
                         }
+                        var soldCardPrice = parseFloat($("#cardPriceId").text());
+                        user.account += soldCardPrice;
+                        // Mettez à jour le solde de l'utilisateur dans l'interface utilisateur (par exemple, dans un élément avec l'ID "userBalance")
+                        $("#user-account").text(user.account.toFixed(2) + "$");
                     },
+
+
 
                     error: function(error) {
                         console.error("Error while selling the card: ", error);
