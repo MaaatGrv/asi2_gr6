@@ -55,6 +55,8 @@ function sellCard(cardId) {
         type: "GET",
         success: function(user) {
             if (user && user.id) {
+                // Sauvegardez le solde actuel de l'utilisateur avant de vendre la carte
+                var currentAccount = user.account;
                 $.ajax({
                     url: "/sell-card",
                     type: "POST",
@@ -62,10 +64,10 @@ function sellCard(cardId) {
                         userId: user.id,
                         cardId: cardId
                     },
-                    success: function() {
+                    success: function(response) {
                         // Supprimez la ligne de la carte vendue
                         $("#tableContent tr[data-card-id='" + cardId + "']").remove();
-            
+                    
                         // Sélectionnez la première carte restante et mettez à jour les détails de la carte
                         var firstCardId = $("#tableContent tr:first").addClass("selected").data("card-id");
                         if (firstCardId) {
@@ -84,12 +86,6 @@ function sellCard(cardId) {
                                 price: ""
                             });
                         }
-            
-                        // Mettez à jour le solde de l'utilisateur
-                        var soldCardPrice = parseFloat($("#cardPriceId").text());
-                        user.account += soldCardPrice;
-                        // Mettez à jour le solde de l'utilisateur dans l'interface utilisateur (par exemple, dans un élément avec l'ID "userBalance")
-                        $("#user-account").text(user.account.toFixed(2) + "$");
                     },
 
                     error: function(error) {
@@ -149,4 +145,3 @@ $(document).ready(function() {
         loadUserCards();
     });
 });
-

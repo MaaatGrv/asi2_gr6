@@ -82,9 +82,15 @@ public class UserController {
     public ResponseEntity<User> getLoggedInUser(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            User user = (User) session.getAttribute("user");
-            if (user != null) {
-                return ResponseEntity.ok(user);
+            User sessionUser = (User) session.getAttribute("user");
+            if (sessionUser != null) {
+                // Récupérez les informations à jour de l'utilisateur depuis la base de données
+                Optional<User> dbUser = userService.findUserById(sessionUser.getId());
+                if (dbUser.isPresent()) {
+                    return ResponseEntity.ok(dbUser.get());
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
             }
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -110,4 +116,17 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @PutMapping("/user/{id}/removemoney")
+    public ResponseEntity<User> removeMoney(@PathVariable Long id, @RequestBody Double amount) {
+        Optional<User> existingUser = userService.findUserById(id);
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
+            user.setAccount(user.getAccount() - amount);
+            User updatedUser = userService.updateUser(id, user);
+            return ResponseEntity.ok(updatedUser);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 }

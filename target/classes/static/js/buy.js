@@ -82,12 +82,6 @@ function buyCard(cardId) {
                                 price: ""
                             });
                         }
-            
-                        // Mettez à jour le solde de l'utilisateur
-                        var soldCardPrice = parseFloat($("#cardPriceId").text());
-                        user.account -= soldCardPrice;
-                        // Mettez à jour le solde de l'utilisateur dans l'interface utilisateur (par exemple, dans un élément avec l'ID "userBalance")
-                        $("#user-account").text(user.account.toFixed(2) + "$");
                     },
                     error: function(error) {
                         console.error("Error while buying the card: ", error);
