@@ -1,4 +1,4 @@
-# ATELIER 1
+# ATELIER 2 - GROUPE 6
 
 ## Membres du groupe :
 - Chloe Baillivet
